@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>puperplatoz0 // platoz-base</title>
+<meta name="description" content="Портфолио puperplatoz0 — KolyanOS, Unity, Python">
+<style>
+  :root{
+    --bg:#0a0a0f;
+    --bg-2:#12121a;
+    --card:#16161f;
+    --border:#23232f;
+    --text:#e6e6f0;
+    --muted:#8a8a9a;
+    --accent:#00e5ff;
+    --accent-2:#ff2bd6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  a{color:var(--accent);text-decoration:none;transition:.2s}
+  a:hover{color:var(--accent-2)}
+
+  /* ==== NAV ==== */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:16px 32px;
+    background:rgba(10,10,15,.75);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--border);
+  }
+  nav .logo{
+    font-weight:700;letter-spacing:1px;
+    background:linear-gradient(90deg,var(--accent),var(--accent-2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  nav ul{display:flex;gap:24px;list-style:none}
+  nav ul a{color:var(--muted);font-size:14px;text-transform:uppercase;letter-spacing:1px}
+  nav ul a:hover{color:var(--accent)}
+  @media(max-width:640px){nav ul{display:none}}
+
+  /* ==== HERO ==== */
+  header{
+    min-height:100vh;
+    display:flex;flex-direction:column;justify-content:center;
+    padding:120px 32px 60px;
+    position:relative;
+    background:
+      radial-gradient(circle at 20% 30%,rgba(0,229,255,.08),transparent 40%),
+      radial-gradient(circle at 80% 70%,rgba(255,43,214,.08),transparent 40%);
+  }
+  header::before{
+    content:'';position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(35,35,47,.4) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(35,35,47,.4) 1px,transparent 1px);
+    background-size:40px 40px;
+    mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%);
+    -webkit-mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%);
+    pointer-events:none;
+  }
+  .hero-inner{max-width:960px;margin:0 auto;width:100%;position:relative;z-index:1}
+  .tag{
+    display:inline-block;
+    padding:6px 14px;
+    border:1px solid var(--accent);
+    border-radius:20px;
+    color:var(--accent);
+    font-size:12px;letter-spacing:2px;text-transform:uppercase;
+    margin-bottom:24px;
+  }
+  h1{
+    font-size:clamp(2.4rem,7vw,4.5rem);
+    line-height:1.05;
+    font-weight:800;
+    letter-spacing:-2px;
+    margin-bottom:20px;
+  }
+  h1 .grad{
+    background:linear-gradient(90deg,var(--accent),var(--accent-2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero-sub{color:var(--muted);font-size:clamp(1rem,2vw,1.2rem);max-width:600px;margin-bottom:36px}
+  .hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+  .btn{
+    display:inline-block;
+    padding:12px 24px;
+    border-radius:8px;
+    font-weight:600;
+    font-size:14px;
+    letter-spacing:.5px;
+    transition:.25s;
+    border:1px solid transparent;
+    cursor:pointer;
+  }
+  .btn-primary{
+    background:linear-gradient(90deg,var(--accent),var(--accent-2));
+    color:#0a0a0f;
+  }
+  .btn-primary:hover{transform:translateY(-2px);color:#0a0a0f;box-shadow:0 8px 24px rgba(0,229,255,.25)}
+  .btn-ghost{
+    border:1px solid var(--border);
+    color:var(--text);
+  }
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+
+  /* ==== SECTIONS ==== */
+  section{padding:100px 32px;max-width:1200px;margin:0 auto}
+  .section-title{
+    font-size:clamp(1.8rem,4vw,2.5rem);
+    font-weight:800;
+    letter-spacing:-1px;
+    margin-bottom:12px;
+  }
+  .section-title span{color:var(--accent)}
+  .section-sub{color:var(--muted);margin-bottom:48px;max-width:600px}
+
+  /* ==== PROJECTS ==== */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+    gap:20px;
+  }
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:24px;
+    transition:.3s;
+    position:relative;
+    overflow:hidden;
+  }
+  .card::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,var(--accent),var(--accent-2));
+    transform:scaleX(0);transform-origin:left;
+    transition:.4s;
+  }
+  .card:hover{border-color:var(--accent);transform:translateY(-4px)}
+  .card:hover::before{transform:scaleX(1)}
+  .card .icon{font-size:28px;margin-bottom:14px;display:block}
+  .card h3{font-size:1.2rem;margin-bottom:8px;font-weight:700}
+  .card p{color:var(--muted);font-size:14px;margin-bottom:16px}
+  .card .tags{display:flex;gap:6px;flex-wrap:wrap}
+  .card .tags span{
+    font-size:11px;
+    padding:3px 10px;
+    background:rgba(0,229,255,.08);
+    color:var(--accent);
+    border-radius:12px;
+    border:1px solid rgba(0,229,255,.2);
+    letter-spacing:.5px;
+  }
+  .card .link{font-size:13px;margin-top:14px;display:inline-block;font-weight:600}
+
+  /* ==== ABOUT ==== */
+  .about-wrap{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:48px;
+    align-items:start;
+  }
+  @media(max-width:768px){.about-wrap{grid-template-columns:1fr}}
+  .about-text p{color:var(--muted);margin-bottom:16px}
+  .about-text strong{color:var(--text)}
+  .stats{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:16px;
+  }
+  .stat{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:20px;
+    text-align:center;
+  }
+  .stat .num{
+    font-size:1.8rem;font-weight:800;
+    background:linear-gradient(90deg,var(--accent),var(--accent-2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    display:block;
+  }
+  .stat .lbl{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:1px}
+
+  /* ==== CONTACT ==== */
+  .contact-links{
+    display:flex;gap:14px;flex-wrap:wrap;
+  }
+  .contact-links a{
+    display:flex;align-items:center;gap:10px;
+    padding:14px 22px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:10px;
+    color:var(--text);
+    font-weight:600;
+    font-size:14px;
+    transition:.25s;
+  }
+  .contact-links a:hover{
+    border-color:var(--accent);
+    transform:translateY(-2px);
+    color:var(--accent);
+  }
+
+  /* ==== FOOTER ==== */
+  footer{
+    border-top:1px solid var(--border);
+    padding:32px;
+    text-align:center;
+    color:var(--muted);
+    font-size:13px;
+  }
+  footer span{color:var(--accent)}
+
+  /* ==== REVEAL ==== */
+  .reveal{opacity:0;transform:translateY(24px);transition:.7s ease-out}
+  .reveal.on{opacity:1;transform:none}
+
+  /* ==== SCROLLBAR ==== */
+  ::-webkit-scrollbar{width:10px}
+  ::-webkit-scrollbar-track{background:var(--bg)}
+  ::-webkit-scrollbar-thumb{background:var(--border);border-radius:5px}
+  ::-webkit-scrollbar-thumb:hover{background:var(--accent)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">&lt;platoz /&gt;</div>
+  <ul>
+    <li><a href="#projects">Проекты</a></li>
+    <li><a href="#about">Обо мне</a></li>
+    <li><a href="#contact">Контакты</a></li>
+  </ul>
+</nav>
+
+<header>
+  <div class="hero-inner">
+    <span class="tag">// developer · gamer · builder</span>
+    <h1>Привет, я <span class="grad">puperplatoz0</span></h1>
+    <p class="hero-sub">
+      Делаю свой Linux-дистрибутив, собираю игры на Unity и пишу всякую полезную автоматизацию на Python.
+      Добро пожаловать в мой уголок интернета.
+    </p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn btn-primary">Смотреть проекты →</a>
+      <a href="https://github.com/puperplatoz0" target="_blank" class="btn btn-ghost">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<section id="projects">
+  <h2 class="section-title reveal">Мои <span>проекты</span></h2>
+  <p class="section-sub reveal">Всё, что я делаю и чем хочу поделиться. Обновляется по мере появления нового.</p>
+
+  <div class="grid">
+    <div class="card reveal">
+      <span class="icon">🐧</span>
+      <h3>KolyanOS</h3>
+      <p>Мой собственный дистрибутив на базе Arch Linux. Лёгкий, минималистичный, с прицелом на повседневное использование.</p>
+      <div class="tags"><span>Arch</span><span>Linux</span><span>Shell</span></div>
+      <!-- ЗАМЕНИ ссылку на репо KolyanOS -->
+      <a href="https://github.com/puperplatoz0" target="_blank" class="link">Подробнее →</a>
+    </div>
+
+    <div class="card reveal">
+      <span class="icon">🎮</span>
+      <h3>Unity Game #1</h3>
+      <p><!-- ЗАМЕНИ: название и описание игры --> Игра на Unity — жанр, механика, за что цепляет. Опиши в паре строк.</p>
+      <div class="tags"><span>Unity</span><span>C#</span><span>Game</span></div>
+      <a href="https://github.com/puperplatoz0" target="_blank" class="link">Подробнее →</a>
+    </div>
+
+    <div class="card reveal">
+      <span class="icon">🕹️</span>
+      <h3>Unity Project #2</h3>
+      <p><!-- ЗАМЕНИ --> Ещё один проект на Unity. Можно указать, что это прототип/демка/релиз.</p>
+      <div class="tags"><span>Unity</span><span>C#</span><span>2D/3D</span></div>
+      <a href="https://github.com/puperplatoz0" target="_blank" class="link">Подробнее →</a>
+    </div>
+
+    <div class="card reveal">
+      <span class="icon">🐍</span>
+      <h3>Python Bot</h3>
+      <p><!-- ЗАМЕНИ --> Телеграм-бот / Discord-бот / утилита. Что делает, для кого, чем полезен.</p>
+      <div class="tags"><span>Python</span><span>Bot</span><span>API</span></div>
+      <a href="https://github.com/puperplatoz0" target="_blank" class="link">Подробнее →</a>
+    </div>
+
+    <div class="card reveal">
+      <span class="icon">⚙️</span>
+      <h3>Python Utils</h3>
+      <p><!-- ЗАМЕНИ --> Набор скриптов для автоматизации: парсеры, конвертеры, воркфлоу.</p>
+      <div class="tags"><span>Python</span><span>Automation</span><span>CLI</span></div>
+      <a href="https://github.com/puperplatoz0" target="_blank" class="link">Подробнее →</a>
+    </div>
+
+    <div class="card reveal">
+      <span class="icon">🚀</span>
+      <h3>Скоро...</h3>
+      <p>Место под следующий проект. Что-то уже пилится в фоне. Следи за обновлениями.</p>
+      <div class="tags"><span>WIP</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <h2 class="section-title reveal">Обо <span>мне</span></h2>
+  <p class="section-sub reveal">Пара строк без воды.</p>
+
+  <div class="about-wrap">
+    <div class="about-text reveal">
+      <p>Меня зовут <strong>puperplatoz0</strong>. Я разрабатываю и экспериментирую: от собственного Linux-дистрибутива до игр на Unity и Python-скриптов.</p>
+      <p>Люблю <strong>низкоуровневые вещи</strong>, чистый код и проекты, которые решают реальные задачи. Не гонюсь за хайпом — делаю то, что интересно.</p>
+      <p>Если найдёшь что-то полезное в моих репах — буду рад. Если есть идея для коллабы — пиши.</p>
+    </div>
+    <div class="stats reveal">
+      <div class="stat"><span class="num">1</span><span class="lbl">Linux дистрибутив</span></div>
+      <div class="stat"><span class="num">2+</span><span class="lbl">Unity проекта</span></div>
+      <div class="stat"><span class="num">∞</span><span class="lbl">Python скриптов</span></div>
+      <div class="stat"><span class="num">24/7</span><span class="lbl">В коде</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <h2 class="section-title reveal">Связаться <span>со мной</span></h2>
+  <p class="section-sub reveal">Открыт к идеям, вопросам и предложениям.</p>
+
+  <div class="contact-links reveal">
+    <a href="https://github.com/puperplatoz0" target="_blank">🐙 GitHub</a>
+    <!-- ЗАМЕНИ на свой Telegram, если есть -->
+    <a href="https://t.me/" target="_blank">✈️ Telegram</a>
+    <!-- ЗАМЕНИ на свою почту -->
+    <a href="mailto:you@example.com">✉️ Email</a>
+  </div>
+</section>
+
+<footer>
+  © <span>platoz-base</span> · собрано с 🔥 руками puperplatoz0
+</footer>
+
+<script>
+  // Плавное появление секций при скролле
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('on');
+        obs.unobserve(e.target);
+      }
+    });
+  },{threshold:.15});
+
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+
+</body>
+</html>
