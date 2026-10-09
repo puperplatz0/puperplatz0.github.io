@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>puperplatoz0 // platoz-base</title>
-<meta name="description" content="Портфолио puperplatoz0 — KolyanOS, Unity, Python">
+<title>puperplatz0 // platoz-base</title>
+<meta name="description" content="Портфолио puperplatz0 — KolyanOS, Unity, Python">
 <style>
   :root{
     --bg:#0a0a0f;
@@ -126,30 +126,71 @@
   /* ==== PROJECTS ==== */
   .grid{
     display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+    grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
     gap:20px;
   }
   .card{
     background:var(--card);
     border:1px solid var(--border);
     border-radius:14px;
-    padding:24px;
+    overflow:hidden;
     transition:.3s;
     position:relative;
-    overflow:hidden;
+    display:flex;
+    flex-direction:column;
   }
   .card::before{
     content:'';position:absolute;top:0;left:0;right:0;height:2px;
     background:linear-gradient(90deg,var(--accent),var(--accent-2));
     transform:scaleX(0);transform-origin:left;
     transition:.4s;
+    z-index:2;
   }
   .card:hover{border-color:var(--accent);transform:translateY(-4px)}
   .card:hover::before{transform:scaleX(1)}
-  .card .icon{font-size:28px;margin-bottom:14px;display:block}
-  .card h3{font-size:1.2rem;margin-bottom:8px;font-weight:700}
-  .card p{color:var(--muted);font-size:14px;margin-bottom:16px}
-  .card .tags{display:flex;gap:6px;flex-wrap:wrap}
+
+  /* --- Скриншот проекта --- */
+  .card-thumb{
+    position:relative;
+    aspect-ratio:16/10;
+    background:
+      linear-gradient(135deg,#0e0e15 0%,#14141c 100%);
+    border-bottom:1px solid var(--border);
+    overflow:hidden;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .card-thumb::before{
+    content:attr(data-label);
+    position:absolute;
+    color:var(--muted);
+    font-size:11px;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    opacity:.55;
+  }
+  .card-thumb::after{
+    content:'';
+    position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(35,35,47,.35) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(35,35,47,.35) 1px,transparent 1px);
+    background-size:24px 24px;
+    pointer-events:none;
+    opacity:.6;
+  }
+  .card-thumb img{
+    width:100%;height:100%;
+    object-fit:cover;
+    position:relative;z-index:1;
+    display:block;
+    transition:transform .5s ease;
+  }
+  .card:hover .card-thumb img{transform:scale(1.04)}
+
+  .card-body{padding:22px;display:flex;flex-direction:column;flex:1}
+  .card h3{font-size:1.15rem;margin-bottom:8px;font-weight:700;letter-spacing:-.3px}
+  .card p{color:var(--muted);font-size:14px;margin-bottom:16px;flex:1}
+  .card .tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
   .card .tags span{
     font-size:11px;
     padding:3px 10px;
@@ -159,7 +200,13 @@
     border:1px solid rgba(0,229,255,.2);
     letter-spacing:.5px;
   }
-  .card .link{font-size:13px;margin-top:14px;display:inline-block;font-weight:600}
+  .card .link{
+    font-size:13px;font-weight:600;
+    display:inline-flex;align-items:center;gap:6px;
+    align-self:flex-start;
+  }
+  .card .link::after{content:'\2192';transition:transform .25s}
+  .card .link:hover::after{transform:translateX(4px)}
 
   /* ==== ABOUT ==== */
   .about-wrap{
@@ -196,7 +243,7 @@
     display:flex;gap:14px;flex-wrap:wrap;
   }
   .contact-links a{
-    display:flex;align-items:center;gap:10px;
+    display:inline-flex;align-items:center;gap:10px;
     padding:14px 22px;
     background:var(--card);
     border:1px solid var(--border);
@@ -211,6 +258,7 @@
     transform:translateY(-2px);
     color:var(--accent);
   }
+  .contact-links svg{flex-shrink:0}
 
   /* ==== FOOTER ==== */
   footer{
@@ -247,14 +295,14 @@
 <header>
   <div class="hero-inner">
     <span class="tag">// developer · gamer · builder</span>
-    <h1>Привет, я <span class="grad">puperplatoz0</span></h1>
+    <h1>Привет, я <span class="grad">puperplatz0</span></h1>
     <p class="hero-sub">
       Делаю свой Linux-дистрибутив, собираю игры на Unity и пишу всякую полезную автоматизацию на Python.
       Добро пожаловать в мой уголок интернета.
     </p>
     <div class="hero-btns">
-      <a href="#projects" class="btn btn-primary">Смотреть проекты →</a>
-      <a href="https://github.com/puperplatoz0" target="_blank" class="btn btn-ghost">GitHub</a>
+      <a href="#projects" class="btn btn-primary">Смотреть проекты</a>
+      <a href="https://github.com/puperplatz0" target="_blank" rel="noopener" class="btn btn-ghost">GitHub</a>
     </div>
   </div>
 </header>
@@ -265,51 +313,74 @@
 
   <div class="grid">
     <div class="card reveal">
-      <span class="icon">🐧</span>
-      <h3>KolyanOS</h3>
-      <p>Мой собственный дистрибутив на базе Arch Linux. Лёгкий, минималистичный, с прицелом на повседневное использование.</p>
-      <div class="tags"><span>Arch</span><span>Linux</span><span>Shell</span></div>
-      <!-- ЗАМЕНИ ссылку на репо KolyanOS -->
-      <a href="https://github.com/puperplatoz0" target="_blank" class="link">Подробнее →</a>
+      <div class="card-thumb" data-label="KolyanOS">
+        <img src="assets/kolyanos.png" alt="KolyanOS screenshot" loading="lazy" onerror="this.remove()">
+      </div>
+      <div class="card-body">
+        <h3>KolyanOS</h3>
+        <p>Мой собственный дистрибутив на базе Arch Linux. Лёгкий, минималистичный, с прицелом на повседневное использование.</p>
+        <div class="tags"><span>Arch</span><span>Linux</span><span>Shell</span></div>
+        <a href="https://github.com/puperplatz0" target="_blank" rel="noopener" class="link">Подробнее</a>
+      </div>
     </div>
 
     <div class="card reveal">
-      <span class="icon">🎮</span>
-      <h3>Unity Game #1</h3>
-      <p><!-- ЗАМЕНИ: название и описание игры --> Игра на Unity — жанр, механика, за что цепляет. Опиши в паре строк.</p>
-      <div class="tags"><span>Unity</span><span>C#</span><span>Game</span></div>
-      <a href="https://github.com/puperplatoz0" target="_blank" class="link">Подробнее →</a>
+      <div class="card-thumb" data-label="Unity project">
+        <img src="assets/unity-1.png" alt="Unity project screenshot" loading="lazy" onerror="this.remove()">
+      </div>
+      <div class="card-body">
+        <h3>Unity Project #1</h3>
+        <p><!-- ЗАМЕНИ: название и описание игры --> Игра на Unity — жанр, механика, за что цепляет. Пара строк без воды.</p>
+        <div class="tags"><span>Unity</span><span>C#</span><span>Game</span></div>
+        <a href="https://github.com/puperplatz0" target="_blank" rel="noopener" class="link">Подробнее</a>
+      </div>
     </div>
 
     <div class="card reveal">
-      <span class="icon">🕹️</span>
-      <h3>Unity Project #2</h3>
-      <p><!-- ЗАМЕНИ --> Ещё один проект на Unity. Можно указать, что это прототип/демка/релиз.</p>
-      <div class="tags"><span>Unity</span><span>C#</span><span>2D/3D</span></div>
-      <a href="https://github.com/puperplatoz0" target="_blank" class="link">Подробнее →</a>
+      <div class="card-thumb" data-label="Unity project">
+        <img src="assets/unity-2.png" alt="Unity project screenshot" loading="lazy" onerror="this.remove()">
+      </div>
+      <div class="card-body">
+        <h3>Unity Project #2</h3>
+        <p><!-- ЗАМЕНИ --> Ещё один проект на Unity. Можно указать, что это прототип, демка или релиз.</p>
+        <div class="tags"><span>Unity</span><span>C#</span><span>2D/3D</span></div>
+        <a href="https://github.com/puperplatz0" target="_blank" rel="noopener" class="link">Подробнее</a>
+      </div>
     </div>
 
     <div class="card reveal">
-      <span class="icon">🐍</span>
-      <h3>Python Bot</h3>
-      <p><!-- ЗАМЕНИ --> Телеграм-бот / Discord-бот / утилита. Что делает, для кого, чем полезен.</p>
-      <div class="tags"><span>Python</span><span>Bot</span><span>API</span></div>
-      <a href="https://github.com/puperplatoz0" target="_blank" class="link">Подробнее →</a>
+      <div class="card-thumb" data-label="Python bot">
+        <img src="assets/bot.png" alt="Python bot screenshot" loading="lazy" onerror="this.remove()">
+      </div>
+      <div class="card-body">
+        <h3>Python Bot</h3>
+        <p><!-- ЗАМЕНИ --> Телеграм-бот или Discord-бот. Что делает, для кого, чем полезен.</p>
+        <div class="tags"><span>Python</span><span>Bot</span><span>API</span></div>
+        <a href="https://github.com/puperplatz0" target="_blank" rel="noopener" class="link">Подробнее</a>
+      </div>
     </div>
 
     <div class="card reveal">
-      <span class="icon">⚙️</span>
-      <h3>Python Utils</h3>
-      <p><!-- ЗАМЕНИ --> Набор скриптов для автоматизации: парсеры, конвертеры, воркфлоу.</p>
-      <div class="tags"><span>Python</span><span>Automation</span><span>CLI</span></div>
-      <a href="https://github.com/puperplatoz0" target="_blank" class="link">Подробнее →</a>
+      <div class="card-thumb" data-label="Python utils">
+        <img src="assets/utils.png" alt="Python utils screenshot" loading="lazy" onerror="this.remove()">
+      </div>
+      <div class="card-body">
+        <h3>Python Utils</h3>
+        <p><!-- ЗАМЕНИ --> Набор скриптов для автоматизации: парсеры, конвертеры, воркфлоу.</p>
+        <div class="tags"><span>Python</span><span>Automation</span><span>CLI</span></div>
+        <a href="https://github.com/puperplatz0" target="_blank" rel="noopener" class="link">Подробнее</a>
+      </div>
     </div>
 
     <div class="card reveal">
-      <span class="icon">🚀</span>
-      <h3>Скоро...</h3>
-      <p>Место под следующий проект. Что-то уже пилится в фоне. Следи за обновлениями.</p>
-      <div class="tags"><span>WIP</span></div>
+      <div class="card-thumb" data-label="Coming soon">
+        <img src="assets/soon.png" alt="" loading="lazy" onerror="this.remove()">
+      </div>
+      <div class="card-body">
+        <h3>Скоро</h3>
+        <p>Место под следующий проект. Что-то уже пилится в фоне. Следи за обновлениями.</p>
+        <div class="tags"><span>WIP</span></div>
+      </div>
     </div>
   </div>
 </section>
@@ -320,7 +391,7 @@
 
   <div class="about-wrap">
     <div class="about-text reveal">
-      <p>Меня зовут <strong>puperplatoz0</strong>. Я разрабатываю и экспериментирую: от собственного Linux-дистрибутива до игр на Unity и Python-скриптов.</p>
+      <p>Меня зовут <strong>puperplatz0</strong>. Разрабатываю и экспериментирую: от собственного Linux-дистрибутива до игр на Unity и Python-скриптов.</p>
       <p>Люблю <strong>низкоуровневые вещи</strong>, чистый код и проекты, которые решают реальные задачи. Не гонюсь за хайпом — делаю то, что интересно.</p>
       <p>Если найдёшь что-то полезное в моих репах — буду рад. Если есть идея для коллабы — пиши.</p>
     </div>
@@ -338,20 +409,33 @@
   <p class="section-sub reveal">Открыт к идеям, вопросам и предложениям.</p>
 
   <div class="contact-links reveal">
-    <a href="https://github.com/puperplatoz0" target="_blank">🐙 GitHub</a>
-    <!-- ЗАМЕНИ на свой Telegram, если есть -->
-    <a href="https://t.me/" target="_blank">✈️ Telegram</a>
-    <!-- ЗАМЕНИ на свою почту -->
-    <a href="mailto:you@example.com">✉️ Email</a>
+    <a href="https://github.com/puperplatz0" target="_blank" rel="noopener">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 .5C5.37.5 0 5.78 0 12.29c0 5.2 3.44 9.6 8.2 11.16.6.11.82-.26.82-.57v-2c-3.34.71-4.04-1.6-4.04-1.6-.55-1.38-1.34-1.75-1.34-1.75-1.09-.74.08-.72.08-.72 1.2.08 1.84 1.22 1.84 1.22 1.07 1.8 2.8 1.28 3.49.98.1-.77.42-1.28.76-1.58-2.67-.3-5.47-1.31-5.47-5.83 0-1.29.47-2.34 1.24-3.17-.12-.3-.54-1.5.12-3.12 0 0 1-.32 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.52 3.3-1.2 3.3-1.2.66 1.62.24 2.82.12 3.12.77.83 1.24 1.88 1.24 3.17 0 4.53-2.8 5.53-5.48 5.82.43.36.81 1.08.81 2.18v3.24c0 .31.21.68.83.56C20.57 21.88 24 17.49 24 12.29 24 5.78 18.63.5 12 .5z"/>
+      </svg>
+      github.com/puperplatz0
+    </a>
+    <a href="https://t.me/de1mos20" target="_blank" rel="noopener">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/>
+      </svg>
+      @de1mos20
+    </a>
+    <a href="mailto:puperplatz0@gmail.com">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="3" y="5" width="18" height="14" rx="2"/>
+        <path d="m3 7 9 6 9-6"/>
+      </svg>
+      puperplatz0@gmail.com
+    </a>
   </div>
 </section>
 
 <footer>
-  © <span>platoz-base</span> · собрано с 🔥 руками puperplatoz0
+  <span>platoz-base</span> · собрано вручную puperplatz0
 </footer>
 
 <script>
-  // Плавное появление секций при скролле
   const obs = new IntersectionObserver((entries)=>{
     entries.forEach(e=>{
       if(e.isIntersecting){
