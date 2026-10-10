@@ -18,18 +18,6 @@
 | **Pitonia** | Python, AI | Archived |
 | **Когда-то** | — | Soon |
 
-## Структура
-├── index.html # вся страница: вёрстка + стили + скрипт
-├── favicon.svg # иконка вкладки
-├── README.md
-└── assets/ # скриншоты проектов
-   ├── kolyanos.png
-   ├── denzorplati.png
-   ├── Pitonia-2.png
-   ├── printerlevel.png
-   ├── pitonia.png
-   └── soon.png
-
 ## СВАСЬ
 
 GitHub: @puperplatz0
